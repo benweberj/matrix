@@ -9,7 +9,5 @@ function setup() {
 
 function draw() {
     background(0, 80);
-    streams.forEach(stream => {
-        stream.rain();
-    });
+    streams.forEach(stream => stream.rain());
 }

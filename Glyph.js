@@ -23,7 +23,7 @@ class Glyph {
     }
 
     rain() {
-        this.y >= height ? this.y = 0 : null;
+        if (this.y >= height) this.y = 0;
         this.y += this.speed;
         if (abs(this.y % this.interval) === 0) this.setChar();
         this.render();
