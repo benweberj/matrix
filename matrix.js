@@ -8,6 +8,6 @@ function setup() {
 }
 
 function draw() {
-    background(0, 80);
+    background(0, 100);
     streams.forEach(stream => stream.rain());
 }
