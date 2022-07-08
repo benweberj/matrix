@@ -8,11 +8,11 @@ class RainingCode extends React.Component {
     state = {
         options: {
             glyphSize: 20,
+            glyphScale: 1,
             opacity: 60,
             speed: 1,
             glitchSpeed: 1,
             streamLength: 10,
-            textScale: 1,
         }
     }
 
@@ -42,11 +42,11 @@ class RainingCode extends React.Component {
         const applyBtnId = 'apply-sketch-options'
         
         p.reset = () => {
-            const { glyphSize, speed, glitchSpeed, streamLength, textScale } = this.state.options
+            const { glyphSize, speed, glitchSpeed, streamLength, glyphScale } = this.state.options
             canvas.clear()
             streams = []
             for (let i = 0; i < p.width; i += parseInt(glyphSize)) {
-                streams.push(new Stream(p, i, glyphSize, speed, glitchSpeed, streamLength, textScale));
+                streams.push(new Stream(p, i, glyphSize, speed, glitchSpeed, streamLength, glyphScale));
             }
         }
 
@@ -109,7 +109,7 @@ class RainingCode extends React.Component {
 }
 
 class Stream {
-    constructor(p, x, size, speed, glitchSpeed, streamLength, textScale=1) {
+    constructor(p, x, size, speed, glitchSpeed, streamLength, glyphScale=1) {
         this.p = p
         this.x = x;
         this.glyphs = [];
@@ -122,7 +122,7 @@ class Stream {
             let interval = p.round(p.random(1/glitchSpeed * 50, 1/glitchSpeed * 100));
             console.log(interval)
             let head = i === 0 && p.random() < .5;
-            let glyph = new Glyph(p, this.x, -size * i - stagger, speed, interval, head, size, textScale);
+            let glyph = new Glyph(p, this.x, -size * i - stagger, speed, interval, head, size, glyphScale);
             this.glyphs.push(glyph);
         }
     }
@@ -135,7 +135,7 @@ class Stream {
 
 // Creates a katakana character that rains down the screen
 class Glyph {
-    constructor(p, x, y, speed, interval, head, size, textScale=1) {
+    constructor(p, x, y, speed, interval, head, size, glyphScale=1) {
         this.p = p
         this.x = x;
         this.y = y;
@@ -143,7 +143,7 @@ class Glyph {
         this.interval = interval;
         this.head = head;
         this.size = size;
-        this.textScale = textScale
+        this.glyphScale = glyphScale
 
         this.char = '_';
         this.setChar();
@@ -155,9 +155,9 @@ class Glyph {
     }
 
     render() {
-        const { p, textScale } = this
+        const { p, glyphScale } = this
         this.head ? p.fill(220, 255, 220) : p.fill(50, 255, 150);
-        p.textSize(this.size * textScale);
+        p.textSize(this.size * glyphScale);
         p.text(this.char, this.x, this.y);
     }
 

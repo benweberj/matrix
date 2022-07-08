@@ -2,4 +2,8 @@
 
 ![](preview.gif)
 
+### For quickly testin' it out
+Download the repo and open build/matrix.html in your browser
+
+### For development
 In the project directory, run: `npm start`
