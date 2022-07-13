@@ -1,0 +1,8 @@
+Run `npm build`
+
+In the build folder:
+    index.html: remove the `/` from the beginning of the js link tag
+    static/js/main.xxxx....js: remove `r.p +` from the image src
+        its minified so ctrl-f for `options.xxxx....png`
+
+        check the /js and /media folders for the specific names
