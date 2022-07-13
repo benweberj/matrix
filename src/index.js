@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import RainingCode from './RainingCode'
@@ -94,7 +94,7 @@ body {
   transition: background .25s ease;
 
   &.on {
-      background: ${theme.green3};
+      background: ${theme.green};
 
       > div {
           transform: translateX(22px);
@@ -116,9 +116,11 @@ body {
   left: 0;
   // width: 100px;
   height: 100%;
-  background: ${theme.lightColor}88;
-  backdrop-filter: blur(5px);
-  padding: ${theme.spacingSmall}px;
+  background: rgba(44, 55, 55, .75);
+  
+  
+
+  padding: 20px;
   transition: transform .5s ease, opacity .5s ease;
   z-index: 2;
   padding: 20px;
@@ -161,8 +163,6 @@ body {
 `
 
 const App = () => {
-  const [ready, setReady] = useState(null)
-
   return (
     <>
       <GlobalStyles />

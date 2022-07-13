@@ -3,15 +3,9 @@ import React, { useState } from 'react'
 import BoolToggle from './BoolToggle'
 
 const SketchOptions = props => {
-    const { options={}, onChange, apply=false, reset=false } = props
-    // apply boolean: if true, add a button to manually apply the new options
-    // Sketches that require it will handle the onclick logic themselves
+    const { options={}, onChange } = props
+    
     const [closed, setClosed] = useState(false)
-
-    // function toggle(name) {
-    //     const curVal = !!options[name]
-    //     onChange(name, !curVal)
-    // }
 
     return (
         <>
@@ -41,6 +35,7 @@ const SketchOptions = props => {
                 src={require('./options.png')}
                 className={`show-sketch-options ${!closed && 'closed'}`}
                 onClick={() => setClosed(false)}
+                alt='options slider icon'
             />
 
         </>
