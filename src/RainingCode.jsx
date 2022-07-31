@@ -1,11 +1,17 @@
 import p5 from 'p5'
 import React from 'react'
 
-import SketchOptions from './Options'
+import SketchOptions from './options/Options'
 
 class RainingCode extends React.Component {
 
     state = {
+        title: 'Raining Code',
+        repo: 'https://benweberj.github.io/matrix',
+        description: `
+            A customizable animation of falling Katakana character streams,
+            inspired by The Matrix 'raining code' animation.
+        `,
         options: {
             glyphSize: 20,
             glyphScale: 1,
@@ -13,6 +19,14 @@ class RainingCode extends React.Component {
             speed: 1,
             glitchSpeed: 1,
             streamLength: 10,
+        },
+        descriptions: {
+            glyphSize: 'The font size in pixels.',
+            glyphScale: 'Scaling factor for the size of the glyphs.',
+            opacity: '0-255 how opaque each frame is. 0 Means the previous frames are never cleared, 255 means each frame completely draws over the previous one. A number in the middle will give a glowing trail effect.',
+            speed: 'How fast the glyph streams rain down.',
+            glitchSpeed: 'How often the glyphs glitch and transform into another glyph.',
+            streamLength: 'How many glyphs are in a stream.',
         }
     }
 
@@ -30,7 +44,24 @@ class RainingCode extends React.Component {
     }
 
     onSettingsChange(key, val) {
-        if (parseInt(val)) val = parseInt(val)
+        if (typeof val !== 'boolean') {
+            // is number
+            if (typeof val === 'string') {
+                let pass = false
+                if (val.length == 0 || val[val.length-1] === '.') {
+                    pass = true
+                }
+
+                if (!pass) {
+                    if (val.includes('.')) {
+                        val = parseFloat(val)
+                    } else {
+                        val = parseInt(val)
+                    }
+                }
+
+            }
+        }
         this.setState({ options: { ...this.state.options, [key]: val} })
     }
 
@@ -43,7 +74,12 @@ class RainingCode extends React.Component {
         
         p.reset = () => {
             const { glyphSize, speed, glitchSpeed, streamLength, glyphScale } = this.state.options
-            canvas.clear()
+            console.log(this.state.options)
+            p.clear()
+            
+            let { width, height } = dim(parentId)
+            p.resizeCanvas(width, height)
+            
             streams = []
             for (let i = 0; i < p.width; i += parseInt(glyphSize)) {
                 streams.push(new Stream(p, i, glyphSize, speed, glitchSpeed, streamLength, glyphScale));
@@ -63,9 +99,9 @@ class RainingCode extends React.Component {
 
             
         p.windowResized = () => {
-            let { width, height } = dim(parentId)
-            p.resizeCanvas(width, height)
-            p.reset()
+            setTimeout(() => {
+                p.reset()
+            }, 500)
         }
     
         p.setup = () => {
@@ -78,12 +114,6 @@ class RainingCode extends React.Component {
 
             p.reset()
         }
-    
-        // p.mouseClicked = e => {
-        //     canvas.clear()
-        //     p.setup()
-        //     console.log(this.state.options)
-        // }
     
         p.draw = () => {
             const { opacity } = this.state.options
@@ -102,12 +132,20 @@ class RainingCode extends React.Component {
         return (
             <div id='sketch-container' className='full'>
                 <div ref={this.matrixRef} />
-                <SketchOptions options={this.state.options} onChange={this.onSettingsChange.bind(this)} />
+                <SketchOptions
+                    title={this.state.title}
+                    description={this.state.description}
+                    repo={this.state.repo}
+                    options={this.state.options}
+                    descriptions={this.state.descriptions}
+                    onChange={this.onSettingsChange.bind(this)}
+                />
             </div>
         )
     }
 }
 
+// Creates a column of Katakana characters that rains down the screen
 class Stream {
     constructor(p, x, size, speed, glitchSpeed, streamLength, glyphScale=1) {
         this.p = p
@@ -120,7 +158,6 @@ class Stream {
 
         for (let i = 0; i < count; i++) {
             let interval = p.round(p.random(1/glitchSpeed * 50, 1/glitchSpeed * 100));
-            console.log(interval)
             let head = i === 0 && p.random() < .5;
             let glyph = new Glyph(p, this.x, -size * i - stagger, speed, interval, head, size, glyphScale);
             this.glyphs.push(glyph);
@@ -132,8 +169,7 @@ class Stream {
     }
 }
 
-
-// Creates a katakana character that rains down the screen
+// Creates an animated katakana character
 class Glyph {
     constructor(p, x, y, speed, interval, head, size, glyphScale=1) {
         this.p = p
