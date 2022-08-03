@@ -7,7 +7,7 @@ class RainingCode extends React.Component {
 
     state = {
         title: 'Raining Code',
-        repo: 'https://benweberj.github.io/matrix',
+        repo: 'https://github.com/benweberj/matrix/',
         description: `
             A customizable animation of falling Katakana character streams,
             inspired by The Matrix 'raining code' animation.
@@ -69,7 +69,6 @@ class RainingCode extends React.Component {
         let canvas
         let streams = []
         const parentId = 'sketch-container'
-        const settingsId = 'sketch-options'
         const applyBtnId = 'apply-sketch-options'
         
         p.reset = () => {

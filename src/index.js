@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import RainingCode from './RainingCode'
 import styles from './options/styles.css'
 
 const App = () => {
-  const [ready, setReady] = useState(null)
-
   return (
     <div id='sketch-container'>
       <RainingCode />
@@ -14,8 +12,4 @@ const App = () => {
   )
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  // <React.StrictMode>
-    <App />
-  // </React.StrictMode>
-)
+ReactDOM.createRoot(document.getElementById('root')).render(<App />)

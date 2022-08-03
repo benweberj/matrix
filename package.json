@@ -9,7 +9,6 @@
     "react-animate-height": "^3.0.4",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "react-tooltip": "^4.2.21",
     "styled-components": "^5.3.5"
   },
   "scripts": {
